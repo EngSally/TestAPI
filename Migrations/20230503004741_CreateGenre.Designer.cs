@@ -11,8 +11,8 @@ using TestAPI.Data;
 namespace TestAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230503003121_createGenre")]
-    partial class createGenre
+    [Migration("20230503004741_CreateGenre")]
+    partial class CreateGenre
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,10 @@ namespace TestAPI.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Genres");
                 });

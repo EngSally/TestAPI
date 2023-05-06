@@ -5,7 +5,7 @@
 namespace TestAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class createGenre : Migration
+    public partial class CreateGenre : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,13 @@ namespace TestAPI.Migrations
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Genres_Name",
+                table: "Genres",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
         }
 
         /// <inheritdoc />
