@@ -2,14 +2,21 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using TestAPI.Data;
+using RepositoryPattern.Core.Helpers;
+using RepositoryPattern.Core.Interfaces;
+using RepositoryPattern.EF.Data;
+using RepositoryPattern.EF.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>
     (option => option.UseSqlServer
-    (builder.Configuration.GetConnectionString("DefaultConnection")));
+    (builder.Configuration.GetConnectionString("DefaultConnection")
+    , b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+builder.Services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
